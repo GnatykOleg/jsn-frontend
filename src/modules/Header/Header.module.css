@@ -1,0 +1,17 @@
+.header {
+  background-color: #fff;
+  border-bottom: 1px solid #ececec;
+  padding-bottom: 1px;
+  max-height: 80px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  background-image: url('https://cdn.pixabay.com/photo/2016/11/18/19/27/ground-1836537_960_720.jpg');
+}
+
+.container {
+  width: 100vw;
+  padding-left: 15px;
+  padding-right: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}

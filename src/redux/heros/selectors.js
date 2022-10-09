@@ -1,1 +1,1 @@
-export const getAllHeroes = state => state.heros;
+export const getAllHeros = state => state.heros.items;

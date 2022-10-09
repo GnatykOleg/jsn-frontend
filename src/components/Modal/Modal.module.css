@@ -1,0 +1,45 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1200;
+}
+
+.modal {
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 24px);
+}
+
+.button {
+  min-width: 100px;
+  min-height: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  border-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.7;
+  letter-spacing: 0.06em;
+
+  transition: all 250ms linear;
+  /* background-image: url('https://cdn-icons-png.flaticon.com/512/64/64498.png'); */
+}
+
+.button:hover,
+.button:focus {
+  background-color: red;
+  color: white;
+}

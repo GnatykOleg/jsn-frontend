@@ -2,7 +2,7 @@ import {
   configureStore,
   // getDefaultMiddleware
 } from '@reduxjs/toolkit';
-import herosSlice from './herosSlice';
+import herosSlice from './heros/herosSlice';
 // import {
 //   persistStore,
 //   persistReducer,

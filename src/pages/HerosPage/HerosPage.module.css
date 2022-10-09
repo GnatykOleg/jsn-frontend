@@ -1,0 +1,32 @@
+.container {
+  width: 100vw;
+  padding-left: 15px;
+  padding-right: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 80px;
+}
+/* 
+.main {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  min-height: 931px;
+  background-image: linear-gradient(
+      to right,
+      rgba(47, 48, 58, 0.4),
+      rgba(47, 48, 58, 0.4)
+    ),
+    url(../../Images/call.jpg);
+  background-position: 50% 50%;
+} */
+
+.title {
+  color: white;
+
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 1.5;
+  text-align: center;
+  letter-spacing: 0.06em;
+  margin-bottom: 15px;
+}

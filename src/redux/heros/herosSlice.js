@@ -4,19 +4,10 @@ import {
   addHero,
   deleteHero,
   // updateHero
-} from './heros/heros-operations';
+} from './heros-operations';
 
 const initialState = {
-  nickName: null,
-  realName: null,
-  images: null,
-  originDescription: null,
-  superpowers: null,
-  catchPhrase: null,
-  favorite: null,
-  createdAt: null,
-  updatedAt: null,
-  _id: null,
+  items: [],
 };
 
 //
@@ -25,8 +16,14 @@ const herosSlice = createSlice({
   name: 'heros',
   initialState,
   extraReducers: {
-    [fetchHeros.fulfilled]: (_, { payload }) => payload,
-    [addHero.fulfilled]: (state, { payload }) => [...state, payload],
+    [fetchHeros.pending]: (_, action) => console.log('Loading'),
+    [fetchHeros.fulfilled]: (state, { payload }) => {
+      return (state = {
+        items: payload,
+      });
+    },
+    // [fetchHeros.fulfilled]: ({ items }, { payload }) => [...items, payload],
+    [addHero.fulfilled]: (state, { payload }) => [...state.items, payload],
     [deleteHero.fulfilled]: (state, { payload }) =>
       state.filter(({ id }) => id !== payload),
   },

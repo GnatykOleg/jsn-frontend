@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 axios.defaults.baseURL = 'http://localhost:4000/api';
 
@@ -19,13 +20,28 @@ export const fetchHeros = createAsyncThunk(
 export const addHero = createAsyncThunk(
   'hero/addHero',
   async (payload, { rejectWithValue }) => {
-    console.log('payload', payload);
-    // const contacts = { number, name };
     try {
       const { data } = await axios.post('/heros', payload);
-      // const { data } = await axios.post('/contacts', contacts);
+      toast.success('Successful add hero!', {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+      });
+      console.log('Успешно отправили');
+
       return data;
     } catch (error) {
+      toast.error('error', {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+      });
       return rejectWithValue(error.message);
     }
   }
@@ -59,7 +75,6 @@ export const updateHero = createAsyncThunk(
 export const uploadImage = createAsyncThunk(
   'heros/uploadImage',
   async (payload, { rejectWithValue }) => {
-    console.log('payload1', payload);
     // const contacts = { number, name };
     try {
       const { data } = await axios.patch('/heros', payload);

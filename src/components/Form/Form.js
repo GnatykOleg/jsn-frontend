@@ -1,29 +1,29 @@
 import { useState } from 'react';
-// import s from './ContactsForm.module.css';
+import s from './Form.module.css';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { getAllHeroes } from 'redux/heros/selectors';
-import { addHero, uploadImage } from 'redux/heros/heros-operations';
+import { useDispatch } from 'react-redux';
 
-import { toast } from 'react-toastify';
+import {
+  addHero,
+  // uploadImage
+} from 'redux/heros/heros-operations';
 
 export default function Form() {
-  const heroes = useSelector(getAllHeroes);
-
   const dispatch = useDispatch();
+  // const heroes = useSelector(getAllHeros);
+
   const [nickName, setNickname] = useState('');
   const [realName, setRealName] = useState('');
   const [originDescription, setOriginDescription] = useState('');
   const [superpowers, setSuperpowers] = useState('');
   const [catchPhrase, setCatchPhrase] = useState('');
   // опять таки разбиратся с картинками
-  const [images, setImages] = useState('');
+  // const [image, setImage] = useState('');
   const [file, setFile] = useState(null);
   const [favorite, setFavorite] = useState('');
-  console.log('file', file);
 
   const handleInputChange = event => {
-    const { name, value } = event.target;
+    const { name, value, files } = event.target;
     switch (name) {
       case 'nickname':
         setNickname(value);
@@ -40,11 +40,10 @@ export default function Form() {
       case 'catchPhrase':
         setCatchPhrase(value);
         break;
-      // КАРТИНКИ РАЗБИРАТСЯ
-      //   case 'images':
-      //     setImages(value);
-      //     setFile(files);
-      //     break;
+
+      case 'image':
+        setFile(files[0]);
+        break;
       case 'favorite':
         setFavorite(value);
         break;
@@ -55,22 +54,43 @@ export default function Form() {
   };
 
   // ПЕРЕПИСАТЬ И ПРОВЕРИТЬ ВСЕ УСЛОВИЕ
-  const handleChangeImage = event => {
-    const { value, files } = event.target;
-    setImages(value);
-    if (
-      (files[0].type.includes('image/png') ||
-        files[0].type.includes('image/jpeg')) &&
-      files[0].size <= 2000000
-    ) {
-      setFile(files[0]);
-    } else {
-      // ПРОВЕРИТЬ TOAST
-      toast.warn(
-        'Формат файла может быть .png или .jpg и не должен превышать 2 МВ'
-      );
-    }
-  };
+
+  // const formSubmitData = ({
+  //   nickName,
+  //   realName,
+  //   originDescription,
+  //   superpowers,
+  //   catchPhrase,
+  //   // file,
+  //   // data,
+  //   favorite,
+  // }) => {
+  //   const newContactName = nickName.toLowerCase();
+  //   //   ТУТ С LOWERCASE ПРОБЛЕМЫ
+  //   if (heroes.some(({ nickName }) => nickName === newContactName)) {
+  //     toast.warn(`${nickName} is already in contacts`, {
+  //       position: 'top-center',
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //     });
+  //   } else {
+  //     dispatch(
+  //       addHero({
+  //         nickName,
+  //         realName,
+  //         originDescription,
+  //         superpowers,
+  //         catchPhrase,
+  //         // file,
+  //         // data,
+  //         favorite,
+  //       })
+  //     );
+  //   }
+  // };
 
   const formSubmitData = ({
     nickName,
@@ -78,33 +98,20 @@ export default function Form() {
     originDescription,
     superpowers,
     catchPhrase,
-    images,
     favorite,
   }) => {
-    const newContactName = nickName.toLowerCase();
-    //   ТУТ С LOWERCASE ПРОБЛЕМЫ
-    if (heroes.some(({ nickName }) => nickName === newContactName)) {
-      toast.warn(`${nickName} is already in contacts`, {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        progress: undefined,
-      });
-    } else {
-      dispatch(
-        addHero({
-          nickName,
-          realName,
-          originDescription,
-          superpowers,
-          catchPhrase,
-          images,
-          favorite,
-        })
-      );
-    }
+    dispatch(
+      addHero({
+        nickName,
+        realName,
+        originDescription,
+        superpowers,
+        catchPhrase,
+        // file,
+        // data,
+        favorite,
+      })
+    );
   };
 
   const resetForm = () => {
@@ -114,16 +121,16 @@ export default function Form() {
     setSuperpowers('');
     setCatchPhrase('');
     setFavorite('');
-    setImages('');
+    // setImage('');
     setFile(null);
   };
 
   const onFormSubmit = event => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append('images', file);
-    console.log('file', file);
-    dispatch(uploadImage(formData));
+    const data = new FormData();
+    data.append('file', file);
+
+    // dispatch(uploadImage(formData));
 
     formSubmitData({
       nickName,
@@ -131,7 +138,8 @@ export default function Form() {
       originDescription,
       superpowers,
       catchPhrase,
-      images,
+      // file,
+      // data,
       favorite,
     });
 
@@ -139,15 +147,18 @@ export default function Form() {
   };
 
   return (
-    <>
+    <div className={s.block}>
       <form onSubmit={onFormSubmit} encType="multipart/form-data">
         {/*  */}
+
         <label
+          className={s.label}
           //   className={s.label}
           htmlFor="nickname"
         >
           Nickname
           <input
+            className={s.input}
             //   className={s.inputNumber}
             minLength={3}
             id="nickname"
@@ -155,16 +166,18 @@ export default function Form() {
             type="text"
             name="nickname"
             value={nickName}
-            // required
+            required
           />
         </label>
         {/*  */}
         <label
+          className={s.label}
           //   className={s.label}
           htmlFor="realName"
         >
           Real name
           <input
+            className={s.input}
             //   className={s.inputNumber}
             minLength={3}
             id="realName"
@@ -172,16 +185,18 @@ export default function Form() {
             type="text"
             name="realName"
             value={realName}
-            // required
+            required
           />
         </label>
         {/*  */}
         <label
+          className={s.label}
           //   className={s.label}
           htmlFor="originDescription"
         >
           Description
           <input
+            className={s.input}
             //   className={s.inputNumber}
             minLength={3}
             id="originDescription"
@@ -189,16 +204,18 @@ export default function Form() {
             type="text"
             name="originDescription"
             value={originDescription}
-            // required
+            required
           />
         </label>
         {/*  */}
         <label
+          className={s.label}
           //   className={s.label}
           htmlFor="superpowers"
         >
           Superpowers
           <input
+            className={s.input}
             //   className={s.inputNumber}
             minLength={3}
             id="superpowers"
@@ -206,16 +223,18 @@ export default function Form() {
             type="text"
             name="superpowers"
             value={superpowers}
-            // required
+            required
           />
         </label>
         {/*  */}
         <label
+          className={s.label}
           //   className={s.label}
           htmlFor="catchPhrase"
         >
           Catch phrase
           <input
+            className={s.input}
             //   className={s.inputNumber}
             minLength={3}
             id="catchPhrase"
@@ -223,16 +242,18 @@ export default function Form() {
             type="text"
             name="catchPhrase"
             value={catchPhrase}
-            // required
+            required
           />
         </label>
         {/*  */}
         <label
+          className={s.label}
           //   className={s.label}
           htmlFor="favorite"
         >
           Favorite
           <input
+            className={s.input}
             //   className={s.inputNumber}
             minLength={3}
             id="favorite"
@@ -240,32 +261,47 @@ export default function Form() {
             type="text"
             name="favorite"
             value={favorite}
-            // required
+            required
           />
         </label>
         {/*  */}
         <label
+          className={s.label}
           //   className={s.label}
-          htmlFor="images"
+          htmlFor="image"
         >
-          images
+          Upload image
           <input
+            className={s.inputUpload}
             //   className={s.inputNumber}
             minLength={3}
-            id="images"
-            onChange={handleChangeImage}
+            id="image"
+            onChange={handleInputChange}
             // onChange={e => e.target.files}
             type="file"
-            name="images"
-            value={images}
+            name="image"
+            // МЕТОД АППЕНД ЗАПОЛНЯЕНТ ЗНАЧЕНИЯ ВМЕСТО СТЕЙТКА
+            // НО ПРИ САБМИТЕ МНЕ ЖЕ НУЖНО ОБНУЛЯТЬ
+            // value={image}
             multiple
-            // required
+            required
           />
         </label>
         {/*  */}
 
-        <button type="submit">Add hero</button>
+        <div className={s.buttonsFlex}>
+          <button className={s.button} type="submit">
+            Add hero
+          </button>
+          <button
+            onClick={() => resetForm()}
+            className={s.button}
+            type="button"
+          >
+            Clear
+          </button>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
