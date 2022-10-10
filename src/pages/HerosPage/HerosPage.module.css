@@ -1,27 +1,5 @@
-.container {
-  width: 100vw;
-  padding-left: 15px;
-  padding-right: 30px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-bottom: 80px;
-}
-/* 
-.main {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  min-height: 931px;
-  background-image: linear-gradient(
-      to right,
-      rgba(47, 48, 58, 0.4),
-      rgba(47, 48, 58, 0.4)
-    ),
-    url(../../Images/call.jpg);
-  background-position: 50% 50%;
-} */
-
 .title {
-  color: white;
+  color: black;
 
   font-weight: 900;
   font-size: 30px;

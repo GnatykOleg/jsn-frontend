@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+
+import { Button, Form } from 'components';
 import s from './Modal.module.css';
-import Form from 'components/Form/Form';
 
 const modalRoot = document.querySelector('#modal-root');
 
-// export default function Modal({ tags, largeImageURL, onClose }) {
-export default function Modal({ onClose }) {
+export default function Modal({ onClose, component }) {
   useEffect(() => {
     const handleKeyDown = event => {
       if (event.code === 'Escape') {
@@ -26,17 +26,12 @@ export default function Modal({ onClose }) {
       onClose();
     }
   };
-  const onButtonClose = event => {
-    onClose();
-  };
+
   return createPortal(
     <div className={s.overlay} onClick={onBackdropClose}>
       <div className={s.modal}>
-        <button onClick={onButtonClose} className={s.button}>
-          CLOSE
-        </button>
+        <Button onClick={() => onClose()} type="button" text="CLOSE" />
         <Form />
-        {/* <img src={largeImageURL} alt={tags} /> */}
       </div>
     </div>,
     modalRoot
@@ -45,6 +40,5 @@ export default function Modal({ onClose }) {
 
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
-  //   largeImageURL: PropTypes.string.isRequired,
-  //   tags: PropTypes.string.isRequired,
+  component: PropTypes.node,
 };

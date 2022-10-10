@@ -28,6 +28,10 @@ export const App = () => {
 
           {/* </Route> */}
           <Route path="/heros/details-page" element={<HerosDetailsPage />} />
+          <Route
+            path="/heros/:page"
+            // element={<HerosPage page={page} setPage={setPage} />}
+          />
           {/* <Route element={<PublicRoute />}> */}
           {/* <Route path="/register" element={<RegisterPage />} /> */}
           {/* </Route> */}

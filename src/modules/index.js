@@ -3,6 +3,7 @@ export { default as HerosList } from './Heros/HerosList/HerosList';
 export { default as HerosDetailsList } from './Heros/HerosDetailsList/HerosDetailsList';
 export { default as Header } from './Header/Header';
 export { default as Footer } from './Footer/Footer';
+
 // export { default as Footer } from './Footer/Footer';
 // export { default as RegisterForm } from './Register/RegisterForm';
 // export { default as LoginForm } from './Login/LoginForm';
