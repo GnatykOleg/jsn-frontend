@@ -10,17 +10,17 @@ export default function Form({ isEditForm }) {
   const { _id } = useParams();
   const dispatch = useDispatch();
 
-  console.log('isEditForm', isEditForm);
-
   const [nickname, setNickname] = useState('');
   const [real_name, setRealName] = useState('');
   const [origin_description, setOriginDescription] = useState('');
   const [superpowers, setSuperpowers] = useState('');
   const [catch_phrase, setCatchPhrase] = useState('');
-  const [favorite, setFavorite] = useState('');
+  const [Images, setImages] = useState(null);
+  const [uploadValue, setUploadValue] = useState('');
 
   const handleInputChange = event => {
-    const { name, value } = event.target;
+    const { name, value, files } = event.target;
+
     switch (name) {
       case 'nickname':
         setNickname(value);
@@ -37,9 +37,16 @@ export default function Form({ isEditForm }) {
       case 'catchPhrase':
         setCatchPhrase(value);
         break;
-      case 'favorite':
-        setFavorite(value);
+      // НУЖНО ЛИ ЭТО ОСТАВЛЯТЬ ЕСЛИ ЗНАЧЕНИЕИ ТАК АВТОМАТОМ ПОКАЗЫВАЕТ
+      case 'Images':
+        // ЗДЕСЬ Я ПОЛУЧАЮ ОНО ИЗОБРАЖЕНИЕ ИЗ МАССИВА
+        const inputImages = Object.values(files);
+        setImages(inputImages);
+        // setImages(inputImages);
+        setUploadValue(value);
+
         break;
+
       default:
         return;
     }
@@ -51,11 +58,22 @@ export default function Form({ isEditForm }) {
     setOriginDescription('');
     setSuperpowers('');
     setCatchPhrase('');
-    setFavorite('');
+    setUploadValue('');
   };
 
   const onFormSubmit = event => {
     event.preventDefault();
+    const data = new FormData();
+
+    data.append('nickname', nickname);
+    data.append('real_name', real_name);
+    data.append('origin_description', origin_description);
+    data.append('superpowers', superpowers);
+    data.append('catch_phrase', catch_phrase);
+    // data.append('Images', Images);
+    Images.forEach(el => {
+      data.append('Images', el, el.originalname);
+    });
 
     if (isEditForm) {
       dispatch(
@@ -66,22 +84,24 @@ export default function Form({ isEditForm }) {
           origin_description,
           superpowers,
           catch_phrase,
-          favorite,
         })
       );
 
       resetForm();
+      // } else if (!isEditForm) {
+      //   dispatch(
+      //     addHero({
+      //       nickname,
+      //       real_name,
+      //       origin_description,
+      //       superpowers,
+      //       catch_phrase,
+      //       files,
+      //     })
+      //   );
+      // }
     } else if (!isEditForm) {
-      dispatch(
-        addHero({
-          nickname,
-          real_name,
-          origin_description,
-          superpowers,
-          catch_phrase,
-          favorite,
-        })
-      );
+      dispatch(addHero(data));
     }
 
     resetForm();
@@ -100,7 +120,7 @@ export default function Form({ isEditForm }) {
             type="text"
             name="nickname"
             value={nickname}
-            required
+            // required
           />
         </label>
 
@@ -114,7 +134,7 @@ export default function Form({ isEditForm }) {
             type="text"
             name="realName"
             value={real_name}
-            required
+            // required
           />
         </label>
 
@@ -128,7 +148,7 @@ export default function Form({ isEditForm }) {
             type="text"
             name="originDescription"
             value={origin_description}
-            required
+            // required
           />
         </label>
         {/*  */}
@@ -142,7 +162,7 @@ export default function Form({ isEditForm }) {
             type="text"
             name="superpowers"
             value={superpowers}
-            required
+            // required
           />
         </label>
 
@@ -156,33 +176,22 @@ export default function Form({ isEditForm }) {
             type="text"
             name="catchPhrase"
             value={catch_phrase}
-            required
+            // required
           />
         </label>
 
-        <label className={s.label} htmlFor="favorite">
-          Favorite
-          <input
-            className={s.input}
-            minLength={3}
-            id="favorite"
-            onChange={handleInputChange}
-            type="text"
-            name="favorite"
-            value={favorite}
-            required
-          />
-        </label>
+        {/* UPLOAD IMAGES */}
 
-        <label className={s.label} htmlFor="image">
-          Upload image
+        <label className={s.label} htmlFor="Images">
+          Upload Images
           <input
             className={s.inputUpload}
             minLength={3}
-            id="image"
+            id="Images"
             onChange={handleInputChange}
             type="file"
-            name="image"
+            name="Images"
+            value={uploadValue}
             multiple
             required
           />

@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   items: null,
-  hero: null,
+
   isLoading: false,
   error: null,
 };

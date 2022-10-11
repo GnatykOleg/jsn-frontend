@@ -35,26 +35,27 @@ export default function HerosDetailsList() {
       origin_description,
       superpowers,
       catch_phrase,
-      favorite,
+      Images,
     }) => {
+      console.log('Images', Images);
       return (
         <div className={s.listContainer} key={_id}>
           <li>
             <p className={s.text}>{_id}</p>
             <Button text="edit" type="button" onClick={() => toggleModal()} />
 
-            <p className={s.text}>{nickname}</p>
+            <p className={s.text}>Nickname: {nickname}</p>
 
-            <p className={s.text}>{real_name}</p>
+            <p className={s.text}>Real name: {real_name}</p>
 
-            <p className={s.text}>{origin_description}</p>
+            <p className={s.text}>Description: {origin_description}</p>
 
-            <p className={s.text}>{catch_phrase}</p>
+            <p className={s.text}>Phrase: {catch_phrase}</p>
 
-            <p className={s.text}>{favorite}</p>
-
-            <p className={s.text}>{superpowers}</p>
-
+            <p className={s.text}>Superpowers: {superpowers}</p>
+            {Images?.map(el => (
+              <img src={el.path} alt={el.filename}></img>
+            ))}
             <img
               src="https://cdn.pixabay.com/photo/2017/07/06/18/48/superman-2478978_960_720.jpg"
               alt="img"
