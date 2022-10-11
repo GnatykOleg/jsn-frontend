@@ -1,6 +1,5 @@
 import HeaderMenu from './HeaderMenu/HeaderMenu';
 import { Container } from 'components';
-
 import s from './Header.module.css';
 
 export default function Header() {

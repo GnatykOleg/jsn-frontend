@@ -1,114 +1,94 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import {
   fetchHeros,
   addHero,
   deleteHero,
   updateHero,
+  findHeroById,
 } from './heros-operations';
 
 const initialState = {
   items: null,
+  hero: null,
   isLoading: false,
   error: null,
 };
 
-//
-
 const herosSlice = createSlice({
-  name: 'heros',
+  name: 'tasks',
   initialState,
+  // Добавляем обработку внешних экшенов
   extraReducers: {
-    //ЗАГРУЗКА ВСЕХ ГЕРОЕВ
-    [fetchHeros.pending]: (state, _) => {
-      console.log('Грузим Геров');
-      return (state = {
-        isLoading: true,
-      });
-    },
-    [fetchHeros.fulfilled]: (state, { payload }) => {
-      return (state = {
-        items: payload,
-        isLoading: false,
-      });
-    },
-    [fetchHeros.rejected]: (state, { payload }) => {
-      console.log('Ошибка загрузки героев');
-      return (state = {
-        error: payload.message,
-        isLoading: false,
-      });
-    },
-    //
-    // [fetchHeros.fulfilled]: ({ items }, { payload }) => [...items, payload],
-    //
-    [addHero.pending]: (state, _) => {
-      console.log('Грузим Добавление Героя');
-      return (state = {
-        isLoading: true,
-      });
-    },
-    // [addHero.fulfilled]: (state, { payload }) => {
-    //   return (state.items = [...state.items, payload]);
-    // },
-    [addHero.fulfilled]: (state, { payload }) => {
-      state = {
-        isLoading: false,
-        items: payload.result,
-      };
-    },
-    [addHero.rejected]: (state, { payload }) => {
-      console.log('Ошибка Добавления Героя');
-      return (state = {
-        error: payload.message,
-        isLoading: false,
-      });
-    },
-    //
-    [deleteHero.pending]: (state, _) => {
-      console.log('Грузим Удаление');
-      return (state = {
-        isLoading: true,
-      });
-    },
-    [deleteHero.fulfilled]: (state, { payload }) => {
-      console.log('Удалили');
+    // ЗАГРУЗКА ВСЕХ ГЕРОЕВ
 
-      return (state = {
-        items: state.items?.filter(({ id }) => id !== payload),
-      });
+    [fetchHeros.pending](state, _) {
+      state.isLoading = true;
     },
-    [deleteHero.rejected]: (state, { payload }) => {
-      console.log('Ошибка Удаления героев');
-      return (state = {
-        error: payload.message,
-        isLoading: false,
-      });
+    [fetchHeros.fulfilled](state, { payload }) {
+      state.items = payload;
+      state.isLoading = false;
     },
-    //
-    [updateHero.pending]: (state, action) => {
-      console.log('Грузим Редактирование');
-      return (state = {
-        isLoading: true,
-      });
+    [fetchHeros.rejected](state, { payload }) {
+      state.isLoading = false;
+      state.error = payload.message;
     },
-    // [updateHero.fulfilled]: (state, { payload }) => {
-    //   console.log('Отредактировали');
-    //   return (state = {
-    //     items: state.items?.filter(({ id }) => id !== payload),
-    //   });
-    // },
-    [updateHero.rejected]: (state, { payload }) => {
-      console.log('Ошибка Редактирования героя');
-      return (state = {
-        error: payload.message,
-        isLoading: false,
-      });
+    // ДОБАВЛЕНИЕ ГЕРОЯ
+
+    [addHero.pending](state, _) {
+      state.isLoading = true;
+    },
+    [addHero.fulfilled](state, { payload }) {
+      state.items = [...state.items, payload];
+      state.isLoading = false;
+    },
+    [addHero.rejected](state, { payload }) {
+      state.isLoading = false;
+      state.error = payload.message;
+    },
+    // НАХОДИМ ГЕРОЯ
+
+    [findHeroById.pending](state, _) {
+      state.isLoading = true;
+    },
+    [findHeroById.fulfilled](state, { payload }) {
+      state.items = state.items?.filter(({ _id }) => _id === payload);
+      state.isLoading = false;
+    },
+    [findHeroById.rejected](state, { payload }) {
+      state.isLoading = false;
+      state.error = payload.message;
+    },
+    // УДЯЛЯЕМ ГЕРОЯ
+
+    [deleteHero.pending](state, _) {
+      state.isLoading = true;
+    },
+    [deleteHero.fulfilled](state, { payload }) {
+      state.items = state.items?.filter(({ _id }) => _id !== payload);
+      state.isLoading = false;
+    },
+    [deleteHero.rejected](state, { payload }) {
+      state.isLoading = false;
+      state.error = payload.message;
+    },
+
+    // ОБНОВЛЯЕМ ГЕРОЯ
+    [updateHero.pending](state, _) {
+      state.isLoading = true;
+    },
+    [updateHero.fulfilled](state, { payload }) {
+      console.log('payloadUPD', payload);
+
+      // state.items = state.items?.filter(({ _id }) => _id === payload);
+      state.items = [payload];
+      state.isLoading = false;
+    },
+    [updateHero.rejected](state, { payload }) {
+      state.isLoading = false;
+      state.error = payload.message;
     },
   },
-  //   ЭТО ОБНОВЛЕНИЕ ГЕРОЯ ЕГО НУЖНО ДЕЛАТЬ ПО ФАКТУ
-  //   [updateHero.fulfilled]: (state, { payload }) =>
-  //       state.filter(({ id }) => id !== payload),
-  //   },
 });
 
 export default herosSlice.reducer;

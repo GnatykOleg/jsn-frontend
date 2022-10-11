@@ -1,18 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+
+import { useEffect } from 'react';
 import { fetchHeros, deleteHero } from 'redux/heros/heros-operations';
 import { getAllHeros, loadingSelector } from 'redux/heros/selectors';
-import { Button, Loader, Modal } from 'components';
+import { Button, Loader, Link } from 'components';
 import s from './HeroList.module.css';
 // import shortid from 'shortid';
 
 export default function HerosList() {
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
-
-  const toggleModal = () => {
-    setShowModal(state => !state);
-  };
 
   useEffect(() => {
     dispatch(fetchHeros());
@@ -39,7 +35,8 @@ export default function HerosList() {
             alt="img"
           ></img>
           <div className={s.buttonsFlex}>
-            <Button type="button" text="Edit" onClick={() => toggleModal()} />
+            <Link to={`/heros/details/${_id}`} text="Full information" />
+
             <Button
               type="button"
               text="Delete"
@@ -54,13 +51,6 @@ export default function HerosList() {
   return (
     <>
       <ul className={s.list}>{loadingSelector ? elements : <Loader />}</ul>
-      {showModal && (
-        <Modal
-          onClose={() => {
-            toggleModal();
-          }}
-        />
-      )}
     </>
   );
 }

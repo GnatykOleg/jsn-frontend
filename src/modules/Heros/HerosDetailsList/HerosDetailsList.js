@@ -1,39 +1,59 @@
 import { useDispatch, useSelector } from 'react-redux';
-
-import { useEffect } from 'react';
-import { fetchHeros } from 'redux/heros/heros-operations';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { fetchHeros, findHeroById } from 'redux/heros/heros-operations';
 import { getAllHeros } from 'redux/heros/selectors';
+import { Modal, Button, Form } from 'components';
+
 import s from './HerosDetailsList.module.css';
-// import shortid from 'shortid';
 
 export default function HerosDetailsList() {
   const dispatch = useDispatch();
 
+  const { _id } = useParams();
+
   useEffect(() => {
     dispatch(fetchHeros());
-  }, [dispatch]);
+    dispatch(findHeroById(_id));
+  }, [dispatch, _id]);
 
   const allHeros = useSelector(getAllHeros);
 
+  const [showModal, setShowModal] = useState(false);
+  const [isEditForm, setisEditForm] = useState(false);
+
+  const toggleModal = () => {
+    setShowModal(state => !state);
+    setisEditForm(true);
+  };
+
   const elements = allHeros?.map(
     ({
-      nickName,
-      realName,
-      originDescription,
-      superpowers,
-      catchPhrase,
-      favorite,
       _id,
+      nickname,
+      real_name,
+      origin_description,
+      superpowers,
+      catch_phrase,
+      favorite,
     }) => {
       return (
         <div className={s.listContainer} key={_id}>
           <li>
-            <p className={s.text}>{nickName}</p>
-            <p className={s.text}>{realName}</p>
-            <p className={s.text}>{originDescription}</p>
-            <p className={s.text}>{superpowers}</p>
-            <p className={s.text}>{catchPhrase}</p>
+            <p className={s.text}>{_id}</p>
+            <Button text="edit" type="button" onClick={() => toggleModal()} />
+
+            <p className={s.text}>{nickname}</p>
+
+            <p className={s.text}>{real_name}</p>
+
+            <p className={s.text}>{origin_description}</p>
+
+            <p className={s.text}>{catch_phrase}</p>
+
             <p className={s.text}>{favorite}</p>
+
+            <p className={s.text}>{superpowers}</p>
 
             <img
               src="https://cdn.pixabay.com/photo/2017/07/06/18/48/superman-2478978_960_720.jpg"
@@ -47,5 +67,17 @@ export default function HerosDetailsList() {
     }
   );
 
-  return <ul className={s.list}>{elements}</ul>;
+  return (
+    <>
+      <ul className={s.list}>{elements}</ul>
+      {showModal && (
+        <Modal
+          onClose={() => {
+            toggleModal();
+          }}
+          component={<Form isEditForm={isEditForm} />}
+        />
+      )}
+    </>
+  );
 }

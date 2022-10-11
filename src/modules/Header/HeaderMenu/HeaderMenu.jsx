@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom';
 import { items } from './items';
-
 import s from '../HeaderMenu/HeaderMenu.module.css';
 
 const getLink = ({ isActive }) => {

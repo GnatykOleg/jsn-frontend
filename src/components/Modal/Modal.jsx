@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-
-import { Button, Form } from 'components';
+import { Button } from 'components';
 import s from './Modal.module.css';
 
 const modalRoot = document.querySelector('#modal-root');
@@ -31,7 +30,8 @@ export default function Modal({ onClose, component }) {
     <div className={s.overlay} onClick={onBackdropClose}>
       <div className={s.modal}>
         <Button onClick={() => onClose()} type="button" text="CLOSE" />
-        <Form />
+
+        {component}
       </div>
     </div>,
     modalRoot

@@ -1,13 +1,7 @@
-import { useState } from 'react';
-import { Modal } from '../../components';
-import { Container, Button } from 'components';
+import { Container, Link } from 'components';
+
 import s from '../HomePage/HomePage.module.css';
 export default function HomePage() {
-  const [showModal, setShowModal] = useState(false);
-  const toggleModal = () => {
-    setShowModal(state => !state);
-  };
-
   return (
     <section className={s.section}>
       <main>
@@ -15,12 +9,7 @@ export default function HomePage() {
           <h1 className={s.title}>
             Welcome to the web application for adding and collecting heroes.
           </h1>
-          <Button
-            text="add new hero"
-            type="button"
-            onClick={() => toggleModal()}
-          />
-
+          <Link to="/heros" text="go to heros" />
           <img
             width={600}
             className={s.img}
@@ -29,7 +18,6 @@ export default function HomePage() {
           ></img>
         </Container>
         <div className={s.container}></div>
-        {showModal && <Modal onClose={toggleModal} />}
       </main>
     </section>
   );

@@ -27,7 +27,7 @@ export const App = () => {
           <Route path="/heros" element={<HerosPage />} />
 
           {/* </Route> */}
-          <Route path="/heros/details-page" element={<HerosDetailsPage />} />
+          <Route path="/heros/details/:_id" element={<HerosDetailsPage />} />
           <Route
             path="/heros/:page"
             // element={<HerosPage page={page} setPage={setPage} />}

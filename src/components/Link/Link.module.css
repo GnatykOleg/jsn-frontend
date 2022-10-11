@@ -1,4 +1,4 @@
-.button {
+.navLink {
   display: flex;
   justify-content: center;
   margin-left: auto;
@@ -23,7 +23,7 @@
   transition: all 250ms linear;
 }
 
-.button:hover,
-.button:focus {
+.navLink:hover,
+.navLink:focus {
   background-color: rgb(50, 158, 86);
 }
